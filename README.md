@@ -1,5 +1,7 @@
 # Poly1305 implementation
 
+Please check the latest version on [GitHub](github.com/leo-leesco/Crypto-TD2). Some bugs might be fixed there :)
+
 ## Build
 
 `cargo build` produces `poly1305-gen` and `poly1305-check` in `target/debug`.

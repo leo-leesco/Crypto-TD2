@@ -1,5 +1,4 @@
 use std::fs;
-
 use TD2::{bernstein::poly1305, convert::extract_rs};
 
 fn main() {

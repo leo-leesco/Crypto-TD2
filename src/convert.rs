@@ -1,7 +1,7 @@
 use std::convert::TryInto;
 use std::u8;
 
-use crate::KEY_SIZE;
+use crate::{KEY_SIZE, LIMBS, LIMB_SIZE};
 
 pub fn clamp(mut r: [u8; KEY_SIZE]) -> [u8; KEY_SIZE] {
     r[3] &= 15;
@@ -40,6 +40,23 @@ pub fn bytes_to_chunks(bytes: &[u8]) -> Vec<[u8; KEY_SIZE]> {
         .collect::<Vec<[u8; KEY_SIZE]>>()
         .try_into()
         .unwrap()
+}
+
+/// convert to u26 limbs, fitting in u32
+pub fn to_limb(mut a: u128) -> [u32; LIMBS] {
+    let mut limbs = [0u32; LIMBS];
+    for i in 0..LIMBS {
+        limbs[i] = a as u32;
+        a >>= LIMB_SIZE;
+    }
+    limbs
+}
+
+pub fn from_limb(limbs: [u32; LIMBS]) -> u128 {
+    limbs
+        .iter()
+        .rev()
+        .fold(0, |acc, &limb| (limb as u128) + (acc << LIMB_SIZE))
 }
 
 #[cfg(test)]
